@@ -1,5 +1,26 @@
 # Changelog — dsh-pua-en
 
+## 0.2.1
+
+Sync with plugin upstream MichengAI/dsh-pua v1.0.3
+(commit 4255ab1); the previous baseline was v1.0.1
+(commit 791733b1a7c63f7818b36501eeeaa4dc85f9b0ff). Material upstream tanweai/pua is
+unchanged at v3.5.1 (commit e6e6cd237ad17750d179674bff52f8184abea8fd).
+
+- Adopt upstream generation-range host admission: declare engines.dsh
+  `>=0.2.0-rc.1 <0.3.0-0` and widen every @deepseek-ai/dsh-* peer range from the fixed
+  four-version list to that same 0.2.x generation range, so a later 0.2.x host release
+  no longer needs a routine plugin bump. The gate still rejects the 0.3.0 generation,
+  and hosts before 0.2.0-rc.1 stay unsupported.
+- Verify the host range with semver.satisfies in scripts/verify.mjs and
+  tests/host-range.test.mjs instead of comparing the range string, and add the
+  0.2.1-rc.3 pin to scripts/check-compat.mjs and the CI compatibility matrix.
+- Declare semver as a development dependency: upstream imports it without declaring it
+  and relies on a transitive install, while this fork pins it explicitly.
+- Do not vendor upstream pnpm-lock.yaml: this fork builds with npm and keeps
+  package-lock.json as its only lockfile.
+- Align the development host to DeepSeek Harness 0.2.1-rc.3.
+
 ## 0.2.0
 
 Sync with plugin upstream MichengAI/dsh-pua v1.0.1

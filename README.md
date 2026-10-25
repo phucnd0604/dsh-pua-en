@@ -44,12 +44,20 @@ Results depend on the model and task. The plugin does not guarantee a solution e
 
 ## Installation
 
-Requires Node.js 22.19 or later. This fork is tested with DeepSeek Harness 0.2.0-rc.1,
-0.2.0-rc.2, 0.2.1-rc.1, and 0.2.1-rc.2. Hosts before 0.2.0, including intermediate
-0.2.1 alphas, are rejected by the version gate, and this plugin will not run. If you still
-use a 0.1.x host, install upstream plugin 0.3.28 instead. Uses your existing DSH model
+Requires Node.js 22.19 or later. Host compatibility: the full DeepSeek Harness `0.2.x`
+line (`>=0.2.0-rc.1 <0.3.0-0`), verified with `0.2.0-rc.1`, `0.2.0-rc.2`, `0.2.1-rc.1`,
+`0.2.1-rc.2`, and `0.2.1-rc.3`, and forwards-compatible with later `0.2.x` releases,
+alphas, and RCs without a routine plugin version bump. Hosts before `0.2.0-rc.1` are
+rejected by the version gate, and the gate cleanly intercepts breaking changes in the
+`0.3.0` generation. If you still use a `0.1.x` host, install upstream plugin `0.3.28`
+instead. Existing settings and session records are kept. Uses your existing DSH model
 configuration; no additional API key is needed. This fork installs by repository — no npm
 registry publish is involved.
+
+GitHub includes a ready-to-run `lib`. After changing source, run `npm run build` before
+committing.
+
+Examples use the `web` profile. Replace it with the profile you use.
 
 ```powershell
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
