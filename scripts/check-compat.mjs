@@ -9,15 +9,16 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 const lock = JSON.parse(readFileSync(join(root, 'package-lock.json'), 'utf8'));
-const supported = pkg.peerDependencies['@deepseek-ai/dsh-session'].split(' || ');
 const HOST_PINS = {
   '0.2.0-rc.1': { cordis: '4.0.4', schemastery: '3.18.4' },
   '0.2.0-rc.2': { cordis: '4.0.4', schemastery: '3.18.4' },
   '0.2.1-rc.1': { cordis: '4.0.5', schemastery: '3.18.5' },
   '0.2.1-rc.2': { cordis: '4.0.5', schemastery: '3.18.5' },
+  '0.2.1-rc.3': { cordis: '4.0.5', schemastery: '3.18.5' },
 };
-const versions = process.argv.slice(2).length ? process.argv.slice(2) : supported;
-if (versions.some(version => !supported.includes(version))) throw new Error('Only the declared supported versions can be verified.');
+const defaultTestedHosts = Object.keys(HOST_PINS);
+const versions = process.argv.slice(2).length ? process.argv.slice(2) : defaultTestedHosts;
+if (versions.some(version => !(version in HOST_PINS))) throw new Error('Only a pinned host version can be verified.');
 const npmCli = process.env.npm_execpath;
 if (!npmCli || !existsSync(npmCli)) throw new Error('Run this through npm run test:compat.');
 if (!existsSync(join(root, 'lib/index.js'))) throw new Error('Run npm run build first.');

@@ -3,7 +3,8 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve, relative, isAbsolute } from 'node:path';
 import assert from 'node:assert/strict';
-import { loadPrompts, loadCommandPrompts, MAX_PROMPT_BYTES, MODES, renderOriginalPrompt } from '../lib/content.js';
+import semver from 'semver';
+import { loadPrompts, loadCommandPrompts, QUALITY_COMMANDS, MAX_PROMPT_BYTES, MODES, renderOriginalPrompt } from '../lib/content.js';
 import { SourceCatalog } from '../lib/source.js';
 import { FLAVORS } from '../lib/flavors.js';
 
@@ -20,7 +21,7 @@ for (const [name, range] of Object.entries(pkg.peerDependencies)) {
   if (name.startsWith('@deepseek-ai/dsh-')) assert.equal(range, hostRange, `${name} host support range mismatch`);
 }
 const hostVersion = pkg.devDependencies['@deepseek-ai/dsh-session'];
-assert.ok(hostRange.split(' || ').includes(hostVersion), 'dev host version is outside the supported range');
+assert.ok(semver.satisfies(hostVersion, hostRange, { includePrerelease: true }), 'dev host version is outside the supported range');
 for (const [name, version] of Object.entries(pkg.devDependencies)) {
   if (!name.startsWith('@deepseek-ai/dsh-')) continue;
   assert.equal(version, hostVersion, `${name} does not pin the same host version`);
